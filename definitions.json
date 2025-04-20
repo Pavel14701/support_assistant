@@ -1,0 +1,65 @@
+{
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "delayed_delete_exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true
+    },
+    {
+      "name": "delete_exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true
+    },
+    {
+      "name": "send_exchange",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true
+    }
+  ],
+  "queues": [
+    {
+      "name": "delayed_rotten_user",
+      "vhost": "/",
+      "durable": true,
+      "arguments": {
+        "x-message-ttl": 1800000,
+        "x-dead-letter-exchange": "delete_exchange",
+        "x-dead-letter-routing-key": "delete_task_route"
+      }
+    },
+    {
+      "name": "delete_rotten_user",
+      "vhost": "/",
+      "durable": true
+    },
+    {
+      "name": "send_register_confirmation",
+      "vhost": "/",
+      "durable": true
+    }
+  ],
+  "bindings": [
+    {
+      "source": "delete_exchange",
+      "vhost": "/",
+      "destination": "delete_rotten_user",
+      "destination_type": "queue",
+      "routing_key": "delete_task_route"
+    },
+    {
+      "source": "send_exchange",
+      "vhost": "/",
+      "destination": "send_register_confirmation",
+      "destination_type": "queue",
+      "routing_key": "register_confirmation_route"
+    }
+  ]
+}
