@@ -8,7 +8,7 @@ class BertConfig(BaseModel):
     model_name: str = Field(alias="BERT_MODEL_NAME")
     threshold: float = Field(alias="BERT_THRESHOLD")
     query_instruction: str = Field(alias="BERT_QUERY_INSTRUCTION")
-    document_instruction: str = Field(alias="BERT_DOCUMENT_INSTRUTION")
+    document_instruction: str = Field(alias="BERT_DOCUMENT_INSTRUCTION")
 
 
 class RedisConfig(BaseModel):
